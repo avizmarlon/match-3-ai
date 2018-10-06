@@ -25,6 +25,43 @@
 ## quickly, can I also find that same solution quickly?
 ## In other words, P=NP?
 
+## ToDo
+## After the IA is capable of calculating exacly what happens with each move
+## (missing being able to calculate what happens when a match makes a booster
+## explode), it should simulate the board after the match was made and see if
+## other matches will happen in a chain. If so, update the board again and run
+## another simulation to check for more chain matches; repeat until there are
+## no matches left. In order to do that we will get the final board_state after
+## the state has been calculated and run it through traverse() with a few
+## different rules.
+
+## Meanwhile, while the matches are being made, a value should be calculated
+## with each match to determine the value of a move and compare to other moves
+## to be able to decide what is the best move.
+
+## 1. How to calculate the outcome of a match when the match makes a
+## booster explode?
+
+## Idea (Theory): when checking for which [row][col] are cleared by the match, make
+## each of these positions represent an empty property (like replacing the
+## fruit letter for a '/' or '1') and before making the fruit above go down
+## compute the positions that are cleared by the booster that exploded.
+## Replace all fruit letters that disappear with the match (including
+## the ones cleared by the booster that exploded when the match was made) with
+## a character to represent empty and after that, compute the fruits above
+## going rows down.
+##
+## Note: The central fruit (if it creates a booster) that triggered the match
+## does NOT disappear when the match is made, even if a booster nearby explodes.
+## It simply goes rows down.
+##
+## Idea (Practical): after replacing all fruit letter that disappeared in a match with a
+## character that represents empty ('/' for example), create a function
+## that will search for all '/' characters and replace them by the fruits above
+## check vertical by vertical (column by column) and the fruits above the '/'s
+## will go rows down equal to the amount of '/'s in that column. Similar to
+## rows_to_move.
+
 import time
 
 fruit_letters = {'R': 'Red', 'Y': 'Yellow', 'B': 'Blue', 'G': 'Green', 'P': 'Purple',
@@ -1229,7 +1266,7 @@ def does_match_have_booster(row, col, priority_match):
 					boosterCol = 'col' + str(col + n)
 					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
 
-	if True:
+	if len(booster) > 0:
 		print(booster)
 		return booster
 	else:

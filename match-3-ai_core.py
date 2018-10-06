@@ -1229,7 +1229,7 @@ def does_match_have_booster(row, col, priority_match):
 					boosterCol = 'col' + str(col + n)
 					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
 
-	if True:
+	if len(booster) > 0:
 		print(booster)
 		return booster
 	else:

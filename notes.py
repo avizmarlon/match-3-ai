@@ -1,5 +1,3 @@
-
-
 # what we learned from the video
 # you can always swap a booster with another, independent of color, type or if
 # it makes a match.
