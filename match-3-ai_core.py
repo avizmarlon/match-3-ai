@@ -35,13 +35,13 @@ modifiers = ['horizontal_booster', 'vertical_booster', 'area_booster', 'star_boo
 
 row1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 row2 = ['J', 'K', 'L', 'Ç', 'S', 'S', 'F', 'R', 'G']
-row3 = ['C', 'Y', 'I', 'H', 'A', 'G', 'B', 'W', 'A']
-row4 = ['K', 'U', 'A', 'A', 'Y', 'A', 'A', 'S', 'G']
-row5 = ['H', 'G', 'V', 'W', 'A', 'L', 'J', 'S', 'N']
-row6 = ['Q', 'S', 'A', 'O', 'A', 'U', 'O', 'I', 'A']
-row7 = ['G', 'O', 'R', 'R', 'Z', 'Y', 'P', 'B', 'O']
-row8 = ['O', 'O', 'G', 'Y', 'P', 'W', 'Y', 'R', 'R']
-row9 = ['Y', 'P', 'Y', 'O', 'O', 'S', 'P', 'O', 'G']
+row3 = ['C', 'Y', 'I', 'H', '1', 'G', 'B', 'W', 'A']
+row4 = ['K', 'U', 'S', 'O', '1', 'B', 'A', 'S', 'G']
+row5 = ['H', 'G', '1', '1', 'A', '1', 'J', 'S', 'N']
+row6 = ['Q', 'S', 'A', 'O', 'F', 'U', 'O', 'I', 'R']
+row7 = ['G', 'O', 'R', 'R', 'Z', 'A', 'P', 'B', 'R']
+row8 = ['O', 'O', 'G', 'S', 'P', 'W', 'Y', 'Y', 'O']
+row9 = ['Y', 'P', 'Y', 'O', 'O', 'S', 'P', 'O', 'S']
 
 rows_properties = {
 		'row1': {'col1': {'hasModifier': False, 'modifier': None}, 
@@ -51,7 +51,7 @@ rows_properties = {
 				'col5': {'hasModifier': False, 'modifier': None}, 
 				'col6': {'hasModifier': False, 'modifier': None}, 
 				'col7': {'hasModifier': False, 'modifier': None}, 
-				'col8': {'hasModifier': False, 'modifier': None}, 
+				'col8': {'hasModifier': False, 'modifier': 'row-1'}, 
 				'col9': {'hasModifier': False, 'modifier': None},
 		},
 
@@ -62,7 +62,7 @@ rows_properties = {
 				'col5': {'hasModifier': False, 'modifier': None}, 
 				'col6': {'hasModifier': False, 'modifier': None}, 
 				'col7': {'hasModifier': False, 'modifier': None}, 
-				'col8': {'hasModifier': False, 'modifier': None}, 
+				'col8': {'hasModifier': False, 'modifier': 'row-2'}, 
 				'col9': {'hasModifier': False, 'modifier': None},
 		}, 
 
@@ -70,7 +70,7 @@ rows_properties = {
 				'col2': {'hasModifier': False, 'modifier': None}, 
 				'col3': {'hasModifier': False, 'modifier': None}, 
 				'col4': {'hasModifier': False, 'modifier': None}, 
-				'col5': {'hasModifier': False, 'modifier': None}, 
+				'col5': {'hasModifier': False, 'modifier': 'row-3'}, 
 				'col6': {'hasModifier': False, 'modifier': None}, 
 				'col7': {'hasModifier': False, 'modifier': None}, 
 				'col8': {'hasModifier': False, 'modifier': None}, 
@@ -80,9 +80,9 @@ rows_properties = {
 		'row4': {'col1': {'hasModifier': False, 'modifier': None}, 
 				'col2': {'hasModifier': False, 'modifier': None}, 
 				'col3': {'hasModifier': False, 'modifier': None}, 
-				'col4': {'hasModifier': False, 'modifier': None}, 
+				'col4': {'hasModifier': False, 'modifier': 'row-4'}, 
 				'col5': {'hasModifier': False, 'modifier': None}, 
-				'col6': {'hasModifier': True, 'modifier': 'horizontal_booster'}, 
+				'col6': {'hasModifier': True, 'modifier': None}, 
 				'col7': {'hasModifier': False, 'modifier': None}, 
 				'col8': {'hasModifier': False, 'modifier': None}, 
 				'col9': {'hasModifier': False, 'modifier': None},
@@ -90,7 +90,7 @@ rows_properties = {
 
 		'row5': {'col1': {'hasModifier': False, 'modifier': None}, 
 				'col2': {'hasModifier': False, 'modifier': None}, 
-				'col3': {'hasModifier': False, 'modifier': None}, 
+				'col3': {'hasModifier': False, 'modifier': 'row-5'}, 
 				'col4': {'hasModifier': False, 'modifier': None}, 
 				'col5': {'hasModifier': False, 'modifier': None}, 
 				'col6': {'hasModifier': False, 'modifier': None}, 
@@ -99,7 +99,7 @@ rows_properties = {
 				'col9': {'hasModifier': False, 'modifier': None},
 		}, 
 
-		'row6': {'col1': {'hasModifier': False, 'modifier': None}, 
+		'row6': {'col1': {'hasModifier': False, 'modifier': 'row-6'}, 
 				'col2': {'hasModifier': False, 'modifier': None}, 
 				'col3': {'hasModifier': False, 'modifier': None}, 
 				'col4': {'hasModifier': False, 'modifier': None}, 
@@ -118,7 +118,7 @@ rows_properties = {
 				'col6': {'hasModifier': False, 'modifier': None}, 
 				'col7': {'hasModifier': False, 'modifier': None}, 
 				'col8': {'hasModifier': False, 'modifier': None}, 
-				'col9': {'hasModifier': False, 'modifier': None},
+				'col9': {'hasModifier': False, 'modifier': 'row-7'},
 		}, 
 
 		'row8': {'col1': {'hasModifier': False, 'modifier': None}, 
@@ -129,10 +129,10 @@ rows_properties = {
 				'col6': {'hasModifier': False, 'modifier': None}, 
 				'col7': {'hasModifier': False, 'modifier': None}, 
 				'col8': {'hasModifier': False, 'modifier': None}, 
-				'col9': {'hasModifier': False, 'modifier': None},
+				'col9': {'hasModifier': False, 'modifier': 'row-8'},
 		}, 
 
-		'row9': {'col1': {'hasModifier': False, 'modifier': None}, 
+		'row9': {'col1': {'hasModifier': False, 'modifier': 'row-9'}, 
 				'col2': {'hasModifier': False, 'modifier': None}, 
 				'col3': {'hasModifier': False, 'modifier': None}, 
 				'col4': {'hasModifier': False, 'modifier': None}, 
@@ -622,6 +622,7 @@ def ValidMoves(row, col, test_board):
 
 		## Verifies the adjacent fruits for matches when moving in a direction.
 		if 'up' not in validMoves:
+
 			## The [::-1] reverses the list, so that we can get the adjacent fruits in order
 			## just like in the border, col - 1 will be the fruit immediately to the left
 			## col - 2 will be to the left of col -1 (using the board positions as reference)
@@ -639,7 +640,8 @@ def ValidMoves(row, col, test_board):
 					c = 0
 
 		## This conditional is in case there are matches in both horizontal and vertical
-		## positions. Like the "L-shape" or "T-shape" match.
+		## positions. Like the "L-shape" or "T-shape" match, which would add 2 'up's to
+		## validMoves, because moving up would make both a vertical and a horizontal match.
 		if 'up' not in validMoves:
 			vertical_check = list(fruit for fruit in up_adjacentFruits['topFruits'][::-1]) + \
 							 list(current_fruit) + \
@@ -682,7 +684,8 @@ def ValidMoves(row, col, test_board):
 					c = 0
 
 		## This conditional is in case there are matches in both horizontal and vertical
-		## positions. Like the "L-shape" or "T-shape" match.
+		## positions. Like the "L-shape" or "T-shape" match, which would add 2 'up's to
+		## validMoves, because moving up would make both a vertical and a horizontal match.
 		if 'down' not in validMoves:
 			vertical_check = list(fruit for fruit in down_adjacentFruits['topFruits'][::-1]) + \
 							 list(current_fruit) + \
@@ -725,7 +728,8 @@ def ValidMoves(row, col, test_board):
 					c = 0
 
 		## This conditional is in case there are matches in both horizontal and vertical
-		## positions. Like the "L-shape" or "T-shape" match.
+		## positions. Like the "L-shape" or "T-shape" match, which would add 2 'up's to
+		## validMoves, because moving up would make both a vertical and a horizontal match.
 		if 'left' not in validMoves:
 			vertical_check = list(fruit for fruit in left_adjacentFruits['topFruits'][::-1]) + \
 							 list(current_fruit) + \
@@ -768,7 +772,8 @@ def ValidMoves(row, col, test_board):
 					c = 0
 
 		## This conditional is in case there are matches in both horizontal and vertical
-		## positions. Like the "L-shape" or "T-shape" match.
+		## positions. Like the "L-shape" or "T-shape" match, which would add 2 'up's to
+		## validMoves, because moving up would make both a vertical and a horizontal match.
 		if 'right' not in validMoves:
 			vertical_check = list(fruit for fruit in right_adjacentFruits['topFruits'][::-1]) + \
 							 list(current_fruit) + \
@@ -1190,9 +1195,37 @@ def fruits_above_count(row, col, board_state):
 ## Removes the fruits cleared in the match; pulls down the fruits above and replace the previos position of
 ## the fruits above with 'X's.
 def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster):
-	for fruits_above in range(fruits_above):
-		fruits_above += total_rows_to_move
-		board_state[row - (fruits_above - total_rows_to_move)][col] = board_state[row - fruits_above][col]
+	
+	# If the match creates a booster, it means the central fruit won't disappear - it will turn into
+	# a booster, and so the amount of fruits that disappear in the vertical reduces by 1, thus reducing
+	# the amount of rows the fruits above will move down.
+	print("current row")
+	print(row)
+	if match_booster != False:
+		total_rows_to_move -= 1
+		
+		# Update the property of the a specific coordinate to have a booster
+		rows_properties[index_to_row[row]][index_to_col[col]]['modifier'] = match_booster
+		rows_properties[index_to_row[row]][index_to_col[col]]['hasModifier'] = True
+
+		print(rows_properties[index_to_row[row]])
+		
+		# This is so that when the fruits go down, they don't replace the
+		# booster fruit that was just created.
+		row -= 1
+
+		if match_booster == 'vertical_booster':
+			pass
+		if match_booster == 'horizontal_booster':
+			pass
+		if match_booster == 'area_booster':
+			pass
+		if match_booster == 'star_booster':
+			pass
+
+	for fruit_above in range(fruits_above):
+		fruit_above += total_rows_to_move
+		board_state[row - (fruit_above - total_rows_to_move)][col] = board_state[row - fruit_above][col]
 
 	# Replace the space left by the fruits that moved down by 'X', which means
 	# random, unpredictable fruit. Number of 'X' in the specific vertical line = total_rows_to_move
@@ -1208,12 +1241,18 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 	# what is the bottom-bost row of the match?
 	bottommost_row = row + match_fruits_count['down']
-
+		
 	# how many fruits above the topmost_row?
 	fruits_above = fruits_above_count(topmost_row, col, board_state)
 
 	# how many rows the fruits above the topmost_row should go down?
 	total_rows_to_move = 1 + match_fruits_count['up'] + match_fruits_count['down']
+	
+	# if the match creates a booster, the central fruit will become a
+	# booster instead of disappearing, and it will move to the bottommost_row
+	# of the match.
+	if match_booster != False:
+		board_state[row][col] = board_state[bottommost_row][col]
 
 	# pull down the fruits above the topmost_row by the amount of rows that are cleared by the match
 	board_state = pull_fruits_above_down(bottommost_row, col, board_state, fruits_above, total_rows_to_move, match_booster)
@@ -1223,6 +1262,10 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 	print('\n')
 	for roar in board_state:
 		print(roar)
+
+	# this needs to be set to False after the first pull_fruits_above_down has been executed
+	# otherwise the fruits above the left and right side of the match won't go down
+	match_booster = False
 
 	# how many fruits above the left fruit at col -1, col -2...?
 	left_match_fruits = match_fruits_count['left']
