@@ -25,10 +25,6 @@
 ## quickly, can I also find that same solution quickly?
 ## In other words, P=NP?
 
-## todo
-## if a booster explodes as result of a match being made, update the rows_properties
-## to reflect this ('hasModifier': False; 'modifier': None)
-
 import time
 
 fruit_letters = {'R': 'Red', 'Y': 'Yellow', 'B': 'Blue', 'G': 'Green', 'P': 'Purple',
@@ -41,7 +37,7 @@ row1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 row2 = ['J', 'K', 'L', 'Ç', 'S', 'S', 'F', 'R', 'G']
 row3 = ['C', 'Y', 'I', 'H', '1', 'G', 'B', 'W', 'A']
 row4 = ['K', 'U', 'S', 'O', '1', 'B', 'A', 'S', 'G']
-row5 = ['H', 'G', '1', '1', 'A', '1', 'J', 'S', 'N']
+row5 = ['H', 'G', '1', '1', 'A', '1', '1', 'S', 'N']
 row6 = ['Q', 'S', 'A', 'O', 'F', 'U', 'O', 'I', 'R']
 row7 = ['G', 'O', 'R', 'R', 'Z', 'A', 'P', 'B', 'R']
 row8 = ['O', 'O', 'G', 'S', 'P', 'W', 'Y', 'Y', 'O']
@@ -1196,6 +1192,49 @@ def fruits_above_count(row, col, board_state):
 			return fruits_above
 			break
 
+# In progress
+def does_match_have_booster(row, col, priority_match):
+	booster = {}
+	match_directions = match_clear_directions[priority_match]
+	for direction in match_directions:
+		if direction == 'up':
+			for n in range(match_directions[direction]):
+				n += 1
+				modifier_info = rows_properties[index_to_row[row - n]][index_to_col[col]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row - n)
+					boosterCol = 'col' + str(col)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+		if direction == 'down':
+			for n in range(match_directions[direction]):
+				n += 1
+				modifier_info = rows_properties[index_to_row[row + n]][index_to_col[col]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row + n)
+					boosterCol = 'col' + str(col)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+		if direction == 'left':
+			for n in range(match_directions[direction]):
+				n += 1
+				modifier_info = rows_properties[index_to_row[row]][index_to_col[col - n]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row)
+					boosterCol = 'col' + str(col - n)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+		if direction == 'right':
+			for n in range(match_directions[direction]):
+				modifier_info = rows_properties[index_to_row[row]][index_to_col[col + n]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row)
+					boosterCol = 'col' + str(col + n)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+
+	if True:
+		print(booster)
+		return booster
+	else:
+		return False
+
 ## Removes the fruits cleared in the match; pulls down the fruits above and replace the previos position of
 ## the fruits above with 'X's.
 def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster):
@@ -1227,18 +1266,9 @@ def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_mo
 		if match_booster == 'star_booster':
 			pass
 
-
 	for fruit_above in range(fruits_above):
 		fruit_above += total_rows_to_move
-		new_fruit_row = row - fruit_above
-
-		## Implement a way to handle the case in which a match makes a
-		## booster explode.
-
-		pass
-
-		current_fruit_row = row - (fruit_above - total_rows_to_move)
-		board_state[current_fruit_row][col] = board_state[new_fruit_row][col]
+		board_state[row - (fruit_above - total_rows_to_move)][col] = board_state[row - fruit_above][col]
 
 	# Replace the space left by the fruits that moved down by 'X', which means
 	# random, unpredictable fruit. Number of 'X' in the specific vertical line = total_rows_to_move
@@ -1246,29 +1276,6 @@ def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_mo
 		board_state[num][col] = 'X'
 
 	return board_state
-
-# In progress
-def does_match_have_booster(row, col, priority_match, board_state):
-	booster = {}
-	match_directions = match_clear_directions[priority_match]
-	for direction in match_directions:
-		if direction == 'up':
-			for n in range(match_directions[direction]):
-				hasModifier = rows_properties[[index_to_row[row]][index_to_col[col]]['hasModifier']]
-				if hasModifier == True:
-					pass
-		if direction == 'down':
-			pass
-		if direction == 'left':
-			pass
-		if direction == 'right':
-			pass
-
-	if True:
-		return booster
-	else:
-		return False
-
 
 def generate_board_state_after_match(row, col, board_state, match_fruits_count, match_booster):
 

@@ -1192,6 +1192,49 @@ def fruits_above_count(row, col, board_state):
 			return fruits_above
 			break
 
+# In progress
+def does_match_have_booster(row, col, priority_match):
+	booster = {}
+	match_directions = match_clear_directions[priority_match]
+	for direction in match_directions:
+		if direction == 'up':
+			for n in range(match_directions[direction]):
+				n += 1
+				modifier_info = rows_properties[index_to_row[row - n]][index_to_col[col]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row - n)
+					boosterCol = 'col' + str(col)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+		if direction == 'down':
+			for n in range(match_directions[direction]):
+				n += 1
+				modifier_info = rows_properties[index_to_row[row + n]][index_to_col[col]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row + n)
+					boosterCol = 'col' + str(col)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+		if direction == 'left':
+			for n in range(match_directions[direction]):
+				n += 1
+				modifier_info = rows_properties[index_to_row[row]][index_to_col[col - n]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row)
+					boosterCol = 'col' + str(col - n)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+		if direction == 'right':
+			for n in range(match_directions[direction]):
+				modifier_info = rows_properties[index_to_row[row]][index_to_col[col + n]]
+				if modifier_info['hasModifier'] == True:
+					boosterRow = 'row' + str(row)
+					boosterCol = 'col' + str(col + n)
+					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+
+	if True:
+		print(booster)
+		return booster
+	else:
+		return False
+
 ## Removes the fruits cleared in the match; pulls down the fruits above and replace the previos position of
 ## the fruits above with 'X's.
 def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster):
