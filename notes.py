@@ -1,3 +1,18 @@
+## original board that I used
+## backup just in case I want to use it again to check with
+## the board I hand-wrote in my notepad
+#row1 = ['R', 'Y', 'B', 'G', 'R', 'P', 'Y', 'R', 'R']
+#row2 = ['R', 'O', 'O', 'P', 'R', 'R', 'B', 'B', 'O']
+#row3 = ['O', 'G', 'R', 'P', 'G', 'Y', 'R', 'R', 'P']
+#row4 = ['O', 'Y', 'P', 'R', 'P', 'P', 'R', 'Y', 'R']
+#row5 = ['B', 'G', 'Y', 'P', 'O', 'O', 'Y', 'P', 'Y']
+#row6 = ['G', 'Y', 'R', 'O', 'Y', 'Y', 'P', 'G', 'R']
+#row7 = ['R', 'O', 'O', 'Y', 'B', 'B', 'G', 'B', 'P']
+#row8 = ['O', 'B', 'B', 'P', 'Y', 'Y', 'P', 'R', 'Y']
+#row9 = ['Y', 'R', 'B', 'Y', 'P', 'R', 'B', 'B', 'O']
+
+
+
 # what we learned from the video
 # you can always swap a booster with another, independent of color, type or if
 # it makes a match.
