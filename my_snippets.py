@@ -66,14 +66,15 @@ fruit_letters = {'R': 'Red', 'Y': 'Yellow', 'B': 'Blue', 'G': 'Green', 'P': 'Pur
 				 'O': 'Orange'}
 fruit_initials = ['R', 'Y', 'B', 'G', 'P', 'O']
 
+#       col1 col2 col3 col4 col5 col6 col7 col8 col9
 row1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 row2 = ['S', 'K', 'L', 'Ç', 'S', 'S', 'F', 'R', 'G']
 row3 = ['F', 'Y', 'I', 'H', 'V', 'G', 'B', 'W', 'A']
 row4 = ['K', 'H', 'A', 'O', 'P', 'B', 'A', 'S', 'G']
-row5 = ['C', 'A', 'D', 'A', 'A', 'L', '1', 'S', 'N']
-row6 = ['Q', 'S', 'Q', 'O', '1', 'U', 'O', 'I', 'R']
-row7 = ['G', 'O', 'R', 'R', 'Z', 'A', 'P', 'B', 'R']
-row8 = ['O', 'O', 'G', 'S', 'P', 'W', 'Y', 'Y', 'O']
+row5 = ['V', 'A', 'D', 'A', 'A', 'L', 'Q', 'S', 'N']
+row6 = ['Q', 'S', 'Q', 'O', 'B', 'U', 'O', 'I', 'R']
+row7 = ['L', 'O', 'R', 'R', 'Z', 'A', 'P', 'B', 'R']
+row8 = ['O', 'M', 'G', 'S', 'P', 'W', 'Y', 'Y', 'O']
 row9 = ['Y', 'P', 'Y', 'O', 'O', 'S', 'P', 'O', 'S']
 
 rows_properties = {
@@ -1278,6 +1279,38 @@ def star_booster_clear(row, col, board_state):
 				board_state[fruit_row][fruit_col] = empty_character
 	return board_stat
 
+## Removes the fruits cleared in the match; pulls down the fruits above and replace the previos position of
+## the fruits above with 'X's.
+def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count):
+	
+	# If the match creates a booster, it means the central fruit won't disappear - it will turn into
+	# a booster, and so the amount of fruits that disappear in the vertical reduces by 1, thus reducing
+	# the amount of rows the fruits above will move down.
+	print("current row on pull_fruits_above_down: " + str(row))
+
+	if match_booster != False:
+		total_rows_to_move -= 1
+
+		print('\n')
+		print("Rows Properties (" + index_to_row[row] + ") on pull_fruits_above_down:")
+		print(rows_properties[index_to_row[row]])
+		print('\n')
+
+		# This is so that when the fruits go down, they don't replace the
+		# booster fruit that was just created.
+		row -= 1
+
+	for fruit_above in range(fruits_above):
+		fruit_above += total_rows_to_move
+		board_state[row - (fruit_above - total_rows_to_move)][col] = board_state[row - fruit_above][col]
+
+	# Replace the space left by the fruits that moved down by 'X', which means
+	# random, unpredictable fruit. Number of 'X' in the specific vertical line = total_rows_to_move
+	for num in range(total_rows_to_move):
+		board_state[num][col] = 'X'
+
+	return board_state
+
 ## This will replace the fruits that disappear with the match by a character
 ## to represent Empty. For example: '/'.
 def execute_match_clear(row, col, board_state, match_booster, match_fruits_count):
@@ -1398,37 +1431,16 @@ def execute_match_clear(row, col, board_state, match_booster, match_fruits_count
 	print('\n')
 	return board_state
 
-## Removes the fruits cleared in the match; pulls down the fruits above and replace the previos position of
-## the fruits above with 'X's.
-def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count):
-	
-	# If the match creates a booster, it means the central fruit won't disappear - it will turn into
-	# a booster, and so the amount of fruits that disappear in the vertical reduces by 1, thus reducing
-	# the amount of rows the fruits above will move down.
-	print("current row on pull_fruits_above_down: " + str(row))
-
-	if match_booster != False:
-		total_rows_to_move -= 1
-
-		print('\n')
-		print("Rows Properties (" + index_to_row[row] + ") on pull_fruits_above_down:")
-		print(rows_properties[index_to_row[row]])
-		print('\n')
-
-		# This is so that when the fruits go down, they don't replace the
-		# booster fruit that was just created.
-		row -= 1
-
-	for fruit_above in range(fruits_above):
-		fruit_above += total_rows_to_move
-		board_state[row - (fruit_above - total_rows_to_move)][col] = board_state[row - fruit_above][col]
-
-	# Replace the space left by the fruits that moved down by 'X', which means
-	# random, unpredictable fruit. Number of 'X' in the specific vertical line = total_rows_to_move
-	for num in range(total_rows_to_move):
-		board_state[num][col] = 'X'
-
-	return board_state
+# This makes a dictionary (col_fruits) in which the keys are cols and the values are
+# also keys (rows) and the values are the fruits located in that position. It's kinda
+# like an inversed board. I honestly don't know if this will be used, but my intuition
+# says it could be useful when looking for empty characters since we would be traversing
+# column by column and not row by row (because new fruits fall in the verticals)
+#col_fruits = {}
+#for e in range(9):
+#	col_fruits[index_to_col[e]] = {}
+#	for u in range(9):
+#		col_fruits[index_to_col[e]][index_to_row[u]] = board[u][e]
 
 def generate_board_state_after_match(row, col, board_state, match_fruits_count, match_booster):
 
@@ -1642,5 +1654,3 @@ def traverse():
 	return fruits_with_valid_move
 
 traverse()
-
-
