@@ -62,20 +62,16 @@
 ## will go rows down equal to the amount of '/'s in that column. Similar to
 ## rows_to_move.
 
-import time
-
 fruit_letters = {'R': 'Red', 'Y': 'Yellow', 'B': 'Blue', 'G': 'Green', 'P': 'Purple',
 				 'O': 'Orange'}
 fruit_initials = ['R', 'Y', 'B', 'G', 'P', 'O']
 
-modifiers = ['horizontal_booster', 'vertical_booster', 'area_booster', 'star_booster']
-
 row1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
-row2 = ['J', 'K', 'L', 'Ç', 'S', 'S', 'F', 'R', 'G']
-row3 = ['C', 'Y', 'I', 'H', '1', 'G', 'B', 'W', 'A']
-row4 = ['K', 'U', 'S', 'O', '1', 'B', 'A', 'S', 'G']
-row5 = ['H', 'G', '1', '1', 'A', '1', '1', 'S', 'N']
-row6 = ['Q', 'S', 'A', 'O', 'F', 'U', 'O', 'I', 'R']
+row2 = ['S', 'K', 'L', 'Ç', 'S', 'S', 'F', 'R', 'G']
+row3 = ['F', 'Y', 'I', 'H', 'V', 'G', 'B', 'W', 'A']
+row4 = ['K', 'H', 'A', 'O', 'P', 'B', 'A', 'S', 'G']
+row5 = ['C', 'A', 'D', 'A', 'A', 'L', '1', 'S', 'N']
+row6 = ['Q', 'S', 'Q', 'O', '1', 'U', 'O', 'I', 'R']
 row7 = ['G', 'O', 'R', 'R', 'Z', 'A', 'P', 'B', 'R']
 row8 = ['O', 'O', 'G', 'S', 'P', 'W', 'Y', 'Y', 'O']
 row9 = ['Y', 'P', 'Y', 'O', 'O', 'S', 'P', 'O', 'S']
@@ -180,6 +176,14 @@ rows_properties = {
 				'col9': {'hasModifier': False, 'modifier': None},
 		}
 }
+
+## While running simulations, rows_properties should be reset after each
+## move evaluation.
+def reset_rows_properties():
+	for n in range(9):
+		for p in range(9):
+			rows_properties[index_to_row[n]][index_to_col[p]]['hasModifier'] = False
+			rows_properties[index_to_row[n]][index_to_col[p]]['modifier'] = None
 
 ## Columns are automatically enumerated by the list indexes;
 ## Column 1 contains the elements of the index 0 of all rows;
@@ -648,7 +652,6 @@ def ValidMoves(row, col, test_board):
 	## Move up conditional check.
 	move_up_call = moveUp(row, col)
 	if move_up_call['canMove'] == True:
-
 		## Star Booster can match any color and will trigger a match whenever it's
 		## swapped, independent of the amount or color of adjacent tiles.
 		if rows_properties[index_to_row[row]][index_to_col[col]]['modifier'] == 'star_booster':
@@ -1229,79 +1232,192 @@ def fruits_above_count(row, col, board_state):
 			return fruits_above
 			break
 
-# In progress
-def does_match_have_booster(row, col, priority_match):
-	booster = {}
-	match_directions = match_clear_directions[priority_match]
-	for direction in match_directions:
-		if direction == 'up':
-			for n in range(match_directions[direction]):
-				n += 1
-				modifier_info = rows_properties[index_to_row[row - n]][index_to_col[col]]
-				if modifier_info['hasModifier'] == True:
-					boosterRow = 'row' + str(row - n)
-					boosterCol = 'col' + str(col)
-					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
-		if direction == 'down':
-			for n in range(match_directions[direction]):
-				n += 1
-				modifier_info = rows_properties[index_to_row[row + n]][index_to_col[col]]
-				if modifier_info['hasModifier'] == True:
-					boosterRow = 'row' + str(row + n)
-					boosterCol = 'col' + str(col)
-					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
-		if direction == 'left':
-			for n in range(match_directions[direction]):
-				n += 1
-				modifier_info = rows_properties[index_to_row[row]][index_to_col[col - n]]
-				if modifier_info['hasModifier'] == True:
-					boosterRow = 'row' + str(row)
-					boosterCol = 'col' + str(col - n)
-					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
-		if direction == 'right':
-			for n in range(match_directions[direction]):
-				modifier_info = rows_properties[index_to_row[row]][index_to_col[col + n]]
-				if modifier_info['hasModifier'] == True:
-					boosterRow = 'row' + str(row)
-					boosterCol = 'col' + str(col + n)
-					booster[boosterRow] = {boosterCol: modifier_info['modifier']}
+def vertical_booster_clear(row, col, board_state, empty_character):
+	for fruit_row in board_state:
+		board_state[fruit_row][col] = empty_character
+	return board_state
 
-	if len(booster) > 0:
-		print(booster)
-		return booster
-	else:
-		return False
+def horizontal_booster_clear(row, col, board_state):
+	for fruit_col in board_state[row]:
+		board_state[row][fruit_col] = empty_character
+	return board_state
+
+def area_booster_clear(row, col, board_state):
+	# left
+	board_state[row][col - 1] = empty_character
+
+	# right
+	board_state[row][col + 1] = empty_character
+
+	# up
+	board_state[row - 1][col] = empty_character
+
+	# down
+	board_state[row + 1][col] = empty_character
+
+	# left_up
+	board_state[row - 1][col - 1] = empty_character
+
+	# left_down
+	board_state[row + 1][col - 1] = empty_character
+
+	# right_up
+	board_state[row - 1][col + 1] = empty_character
+
+	# right_down
+	board_state[row + 1][col + 1] = empty_character
+
+	return board_state
+
+def star_booster_clear(row, col, board_state):
+	fruit_color_letter = board_state[row][col]
+	for fruit_row in board_state:
+		for fruit_col in board_state:
+			fruit_being_analyzed = board_state[fruit_row][fruit_col]
+			if fruit_being_analyzed == fruit_color_letter:
+				board_state[fruit_row][fruit_col] = empty_character
+	return board_stat
+
+## This will replace the fruits that disappear with the match by a character
+## to represent Empty. For example: '/'.
+def execute_match_clear(row, col, board_state, match_booster, match_fruits_count):
+	empty_character = '/'
+
+	## If the match does not create a booster, replace the current fruit
+	## with an empty character.
+	row_property = rows_properties[index_to_row[row]][index_to_col[col]]
+	if row_property['hasModifier'] == False:
+		board_state[row][col] == empty_character
+
+	up_direction_fruits_count = match_fruits_count['up']
+	if up_direction_fruits_count > 0:
+		for n in range(up_direction_fruits_count):
+			n += 1
+
+			## This is in case the match makes a booster explode.
+			row_property = rows_properties[index_to_row[row - n]][index_to_col[col]]
+			if row_property['hasModifier'] == True:
+				modifier = row_property['modifier']
+				if modifier == 'vertical_booster':
+					board_state = vertical_booster_clear(row - n, col, board_state, empty_character)
+				if modifier == 'horizontal_booster':
+					board_state = horizontal_booster_clear(row - n, col, board_state, empty_character)
+				if modifier == 'area_booster':
+					board_state = area_booster_clear(row - n, col, board_state, empty_character)
+				if modifier == 'star_booster':
+					board_state = star_booster_clear(row - n, col, board_state, empty_character)
+
+				## Since the booster on this position exploded, we update rows_properties to
+				## reflect that.
+				rows_properties[index_to_row[row - n]][index_to_col][col]['hasModifier'] = False
+				rows_properties[index_to_row[row - n]][index_to_col][col]['modifier'] = None
+
+			print("The row inside execute_match_clear() for 'up' direction is: " + str(row))
+			board_state[row - n][col] = empty_character
+
+	down_direction_fruits_count = match_fruits_count['down']
+	if down_direction_fruits_count > 0:		
+		for n in range(down_direction_fruits_count):
+			n += 1
+
+			## This is in case the match makes a booster explode.
+			row_property = rows_properties[index_to_row[row + n]][index_to_col[col]]
+			if row_property['hasModifier'] == True:
+				modifier = row_property['modifier']
+				if modifier == 'vertical_booster':
+					board_state = vertical_booster_clear(row + n, col, board_state, empty_character)
+				if modifier == 'horizontal_booster':
+					board_state = horizontal_booster_clear(row + n, col, board_state, empty_character)
+				if modifier == 'area_booster':
+					board_state = area_booster_clear(row + n, col, board_state, empty_character)
+				if modifier == 'star_booster':
+					board_state = star_booster_clear(row + n, col, board_state, empty_character)
+														
+				## Since the booster on this position exploded, we update rows_properties to
+				## reflect that.
+				rows_properties[index_to_row[row + n]][index_to_col][col]['hasModifier'] = False
+				rows_properties[index_to_row[row + n]][index_to_col][col]['modifier'] = None															
+
+			print("The row inside execute_match_clear() for 'down' direction is: " + str(row))
+			board_state[row + n][col] = empty_character
+
+	left_direction_fruits_count = match_fruits_count['left']
+	if left_direction_fruits_count > 0:
+		for n in range(left_direction_fruits_count):
+			n += 1
+
+			## This is in case the match makes a booster explode.
+			row_property = rows_properties[index_to_row[row]][index_to_col[col - 1]]
+			if row_property['hasModifier'] == True:
+				modifier = row_property['modifier']
+				if modifier == 'vertical_booster':
+					board_state = vertical_booster_clear(row, col - 1, board_state, empty_character)
+				if modifier == 'horizontal_booster':
+					board_state = horizontal_booster_clear(row, col - 1, board_state, empty_character)
+				if modifier == 'area_booster':
+					board_state = area_booster_clear(row, col - 1, board_state, empty_character)
+				if modifier == 'star_booster':
+					board_state = star_booster_clear(row, col - 1, board_state, empty_character)																	
+
+				## Since the booster on this position exploded, we update rows_properties to
+				## reflect that.
+				rows_properties[index_to_row[row]][index_to_col][col - n]['hasModifier'] = False
+				rows_properties[index_to_row[row]][index_to_col][col - n]['modifier'] = None
+			
+			board_state[row][col - n] = empty_character
+
+	right_direction_fruits_count = match_fruits_count['right']
+	if right_direction_fruits_count > 0:
+		for n in range(right_direction_fruits_count):
+			n += 1
+
+			## This is in case the match makes a booster explode.
+			row_property = rows_properties[index_to_row[row]][index_to_col[col + 1]]
+			if row_property['hasModifier'] == True:
+				modifier = row_property['modifier']
+				if modifier == 'vertical_booster':
+					board_state = vertical_booster_clear(row, col + 1, board_state, empty_character)
+				if modifier == 'horizontal_booster':
+					board_state = horizontal_booster_clear(row, col + 1, board_state, empty_character)
+				if modifier == 'area_booster':
+					board_state = area_booster_clear(row, col + 1, board_state, empty_character)
+				if modifier == 'star_booster':
+					board_state = star_booster_clear(row, col + 1, board_state, empty_character)										
+
+				## Since the booster on this position exploded, we update rows_properties to
+				## reflect that.
+				rows_properties[index_to_row[row]][index_to_col][col + n]['hasModifier'] = False
+				rows_properties[index_to_row[row]][index_to_col][col + n]['modifier'] = None
+
+			board_state[row][col + n] = empty_character
+
+	print('\n')
+	print("Board after it was replaced with '/'s.")
+	for superl in board_state:
+		print(superl)
+	print('\n')
+	return board_state
 
 ## Removes the fruits cleared in the match; pulls down the fruits above and replace the previos position of
 ## the fruits above with 'X's.
-def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster):
+def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count):
 	
 	# If the match creates a booster, it means the central fruit won't disappear - it will turn into
 	# a booster, and so the amount of fruits that disappear in the vertical reduces by 1, thus reducing
 	# the amount of rows the fruits above will move down.
-	print("current row")
-	print(row)
+	print("current row on pull_fruits_above_down: " + str(row))
+
 	if match_booster != False:
 		total_rows_to_move -= 1
-		
-		# Update the property of the a specific coordinate to have a booster
-		rows_properties[index_to_row[row]][index_to_col[col]]['modifier'] = match_booster
-		rows_properties[index_to_row[row]][index_to_col[col]]['hasModifier'] = True
 
+		print('\n')
+		print("Rows Properties (" + index_to_row[row] + ") on pull_fruits_above_down:")
 		print(rows_properties[index_to_row[row]])
-		
+		print('\n')
+
 		# This is so that when the fruits go down, they don't replace the
 		# booster fruit that was just created.
 		row -= 1
-
-		if match_booster == 'vertical_booster':
-			pass
-		if match_booster == 'horizontal_booster':
-			pass
-		if match_booster == 'area_booster':
-			pass
-		if match_booster == 'star_booster':
-			pass
 
 	for fruit_above in range(fruits_above):
 		fruit_above += total_rows_to_move
@@ -1327,15 +1443,32 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 	# how many rows the fruits above the topmost_row should go down?
 	total_rows_to_move = 1 + match_fruits_count['up'] + match_fruits_count['down']
+
+
+	# Update the property of a specific coordinate to have a booster
+	if match_booster != False:
+		print("Match booster: ")
+		print(match_booster)
+		rows_properties[index_to_row[bottommost_row]][index_to_col[col]]['modifier'] = match_booster
+		rows_properties[index_to_row[bottommost_row]][index_to_col[col]]['hasModifier'] = True
 	
+		## This will replace the fruits cleared by the match with a '/' to represent
+		## "empty space".
+		#board_state = execute_match_clear(row, col, board_state, match_booster, match_fruits_count)
+
 	# if the match creates a booster, the central fruit will become a
 	# booster instead of disappearing, and it will move to the bottommost_row
 	# of the match.
-	if match_booster != False:
-		board_state[row][col] = board_state[bottommost_row][col]
+	# What is the purpose of this shit? The central fruit becomes the fruit which
+	# is at the bottommost_row of it's row? WTf? ISn't it supposed to be the other
+	# way around? I'm commenting this for now, because after several runs of the
+	# program under different circumstances, the result was always the same
+	# with or without this piece of code.
+	#if match_booster != False:
+		#board_state[bottommost_row][col] = board_state[row][col]
 
 	# pull down the fruits above the topmost_row by the amount of rows that are cleared by the match
-	board_state = pull_fruits_above_down(bottommost_row, col, board_state, fruits_above, total_rows_to_move, match_booster)
+	board_state = pull_fruits_above_down(bottommost_row, col, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count)
 
 	print('\n')
 	print("board after vertical replacement")
@@ -1349,13 +1482,10 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 	# how many fruits above the left fruit at col -1, col -2...?
 	left_match_fruits = match_fruits_count['left']
-	print('Amount of fruits to the left:')
-	print(list(lol for lol in range(left_match_fruits)))
 	if left_match_fruits > 0:
 		leftCol = int(col)
 		for n in range(left_match_fruits):
 			n += 1
-			print('n value is: ' + str(n))
 
 			## change the col to analyze the fruit to the left and then to left of the previous fruits
 			## and so on
@@ -1369,7 +1499,7 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 			## pull the fruits above 1 row down (in the case of left and right adjacent fruits of
 			## the match, the fruits only go down 1 row)
-			board_state = pull_fruits_above_down(row, leftCol, board_state, fruits_above, total_rows_to_move, match_booster)
+			board_state = pull_fruits_above_down(row, leftCol, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count)
 
 			print('\n')
 			print("[left]board after removal of fruits above col " + str(leftCol))
@@ -1380,8 +1510,6 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 	# how many fruits above the right fruit at col + 1, col +2...?
 	right_match_fruits = match_fruits_count['right']
-	print('Amount of fruits to the right:')
-	print(list(yeah for yeah in range(right_match_fruits)))
 	if right_match_fruits > 0:
 		rightCol = int(col)
 		for n in range(right_match_fruits):
@@ -1399,7 +1527,7 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 			## pull the fruits above 1 row down (in the case of left and right adjacent fruits of
 			## the match, the fruits only go down 1 row)
-			board_state = pull_fruits_above_down(row, rightCol, board_state, fruits_above, total_rows_to_move, match_booster)
+			board_state = pull_fruits_above_down(row, rightCol, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count)
 			print('\n')
 			print("[right] board after removal of fruits above col " + str(rightCol))
 			print('\n')
@@ -1417,7 +1545,8 @@ def simulation(row, col, priority_match, board_state, match_booster):
 	print('\n')
 
 	match_fruits_count = match_clear_directions[priority_match]
-	new_board = generate_board_state_after_match(row, col, board_state, match_fruits_count, match_booster)
+	new_board = generate_board_state_after_match(row, \
+				col, board_state, match_fruits_count, match_booster)
 
 	print('\n')
 	print("Board After Simulation:")
@@ -1436,6 +1565,11 @@ def move_outcome(row, col, valid_moves):
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
 			simulation(row - 1, col, priority_match, output_board, match_booster)
+
+			## While running simulations, rows_properties should be reset after each
+			## move evaluation.			
+			reset_rows_properties()
+
 		if move_direction == 'down':
 			print("## DOWN")
 			output_board = moveDown(row, col)['output_board']
@@ -1443,6 +1577,11 @@ def move_outcome(row, col, valid_moves):
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
 			simulation(row + 1, col, priority_match, output_board, match_booster)
+
+			## While running simulations, rows_properties should be reset after each
+			## move evaluation.
+			reset_rows_properties()
+
 		if move_direction == 'left':
 			print("## LEFT")
 			output_board = moveLeft(row, col)['output_board']
@@ -1450,6 +1589,11 @@ def move_outcome(row, col, valid_moves):
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
 			simulation(row, col - 1, priority_match, output_board, match_booster)
+
+			## While running simulations, rows_properties should be reset after each
+			## move evaluation.				
+			reset_rows_properties()
+
 		if move_direction == 'right':
 			print("## RIGHT")
 			output_board = moveRight(row, col)['output_board']
@@ -1457,6 +1601,10 @@ def move_outcome(row, col, valid_moves):
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
 			simulation(row, col + 1, priority_match, output_board, match_booster)
+
+			## While running simulations, rows_properties should be reset after each
+			## move evaluation.			
+			reset_rows_properties()
 
 # in progress
 def traverse():
@@ -1466,15 +1614,9 @@ def traverse():
 	] 
 	for i in range(9):
 		row = i
-		#print('\n')
 		for j in range(9):
 			col = j
 			current_fruit = test_board[row][col]
-
-			## REMOVE THIS AFTER YOU FINISH TESTING
-			#if (row, col) == (4, 7):
-				#exit()
-
 			valid_moves = ValidMoves(row, col, test_board)
 			if valid_moves['isValid'] == True:
 				## here will be the function that sees what happens when
@@ -1500,3 +1642,5 @@ def traverse():
 	return fruits_with_valid_move
 
 traverse()
+
+
