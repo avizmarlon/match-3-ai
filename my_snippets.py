@@ -67,15 +67,15 @@ fruit_letters = {'R': 'Red', 'Y': 'Yellow', 'B': 'Blue', 'G': 'Green', 'P': 'Pur
 fruit_initials = ['R', 'Y', 'B', 'G', 'P', 'O']
 
 #       col1 col2 col3 col4 col5 col6 col7 col8 col9
-row1 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
-row2 = ['S', 'K', 'L', 'Ç', 'S', 'S', 'F', 'R', 'G']
-row3 = ['F', 'Y', 'I', 'H', 'V', 'G', 'B', 'W', 'A']
-row4 = ['K', 'H', 'A', 'O', 'P', 'B', 'A', 'S', 'G']
-row5 = ['V', 'A', 'D', 'A', 'A', 'L', 'Q', 'S', 'N']
-row6 = ['Q', 'S', 'Q', 'O', 'B', 'U', 'O', 'I', 'R']
-row7 = ['L', 'O', 'R', 'R', 'Z', 'A', 'P', 'B', 'R']
-row8 = ['O', 'M', 'G', 'S', 'P', 'W', 'Y', 'Y', 'O']
-row9 = ['Y', 'P', 'Y', 'O', 'O', 'S', 'P', 'O', 'S']
+row1 = ['X', 'Y', 'B', 'B', 'X', 'Y', 'G', 'B', 'X']
+row2 = ['B', 'Y', 'R', 'G', 'B', 'G', 'Y', 'Y', 'R']
+row3 = ['B', 'R', 'R', 'O', 'Y', 'G', 'P', 'Y', 'Y']
+row4 = ['G', 'Y', 'Y', 'O', 'O', 'B', 'Y', 'B', 'Y']
+row5 = ['G', 'O', 'Y', 'R', 'B', 'G', 'O', 'O', 'B']
+row6 = ['X', 'Y', 'O', 'G', 'G', 'R', 'B', 'O', 'X']
+row7 = ['X', 'X', 'R', 'R', 'Y', 'G', 'O', 'X', 'X']
+row8 = ['X', 'X', 'X', 'O', 'G', 'B', 'X', 'X', 'X']
+row9 = ['X', 'X', 'X', 'X', 'G', 'X', 'X', 'X', 'X']
 
 rows_properties = {
 		'row1': {'col1': {'hasModifier': False, 'modifier': None}, 
@@ -1172,7 +1172,7 @@ def matches_check(row, col, input_board):
 		simul_board.append(list(fruit_row))
 	current_fruit = simul_board[row][col]
 	adjacent_fruits = adjacentFruits(row, col, simul_board)
-	print(adjacent_fruits)
+	#print(adjacent_fruits)
 	## check for 3-match
 	match_3_check = match_3(row, col, current_fruit, simul_board, adjacent_fruits)
 	if match_3_check != False:
@@ -1208,13 +1208,12 @@ def matches_check(row, col, input_board):
 
 
 
-	print('\n')
-	print("Matches:")
-	print(matches)
-	print('\n')
-	print("Priority Match:")
-	print(priority_match)
-	print('\n')
+	#print('\n')
+	#print("Matches:")
+	#print(matches)
+	#print("Priority Match:")
+	#print(priority_match)
+	#print('\n')
 	return {'priority_match': priority_match, \
 			'booster': doesMatchCreatesBooster(priority_match)
 	}
@@ -1286,15 +1285,15 @@ def pull_fruits_above_down(row, col, board_state, fruits_above, total_rows_to_mo
 	# If the match creates a booster, it means the central fruit won't disappear - it will turn into
 	# a booster, and so the amount of fruits that disappear in the vertical reduces by 1, thus reducing
 	# the amount of rows the fruits above will move down.
-	print("current row on pull_fruits_above_down: " + str(row))
+	#print("current row on pull_fruits_above_down: " + str(row))
 
 	if match_booster != False:
 		total_rows_to_move -= 1
 
-		print('\n')
-		print("Rows Properties (" + index_to_row[row] + ") on pull_fruits_above_down:")
-		print(rows_properties[index_to_row[row]])
-		print('\n')
+		#print('\n')
+		#print("Rows Properties (" + index_to_row[row] + ") on pull_fruits_above_down:")
+		#print(rows_properties[index_to_row[row]])
+		#print('\n')
 
 		# This is so that when the fruits go down, they don't replace the
 		# booster fruit that was just created.
@@ -1459,7 +1458,7 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 
 	# Update the property of a specific coordinate to have a booster
 	if match_booster != False:
-		print("Match booster: ")
+		print("Match booster updated: ")
 		print(match_booster)
 		rows_properties[index_to_row[bottommost_row]][index_to_col[col]]['modifier'] = match_booster
 		rows_properties[index_to_row[bottommost_row]][index_to_col[col]]['hasModifier'] = True
@@ -1482,11 +1481,11 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 	# pull down the fruits above the topmost_row by the amount of rows that are cleared by the match
 	board_state = pull_fruits_above_down(bottommost_row, col, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count)
 
-	print('\n')
-	print("board after vertical replacement")
-	print('\n')
-	for roar in board_state:
-		print(roar)
+	#print('\n')
+	#print("board after vertical replacement")
+	#print('\n')
+	#for roar in board_state:
+	#	print(roar)
 
 	# this needs to be set to False after the first pull_fruits_above_down has been executed
 	# otherwise the fruits above the left and right side of the match won't go down
@@ -1513,11 +1512,11 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 			## the match, the fruits only go down 1 row)
 			board_state = pull_fruits_above_down(row, leftCol, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count)
 
-			print('\n')
-			print("[left]board after removal of fruits above col " + str(leftCol))
-			print('\n')
-			for roar in board_state:
-				print(roar)
+			#print('\n')
+			#print("[left]board after removal of fruits above col " + str(leftCol))
+			#print('\n')
+			#for roar in board_state:
+			#	print(roar)
 
 
 	# how many fruits above the right fruit at col + 1, col +2...?
@@ -1540,33 +1539,35 @@ def generate_board_state_after_match(row, col, board_state, match_fruits_count, 
 			## pull the fruits above 1 row down (in the case of left and right adjacent fruits of
 			## the match, the fruits only go down 1 row)
 			board_state = pull_fruits_above_down(row, rightCol, board_state, fruits_above, total_rows_to_move, match_booster, match_fruits_count)
-			print('\n')
-			print("[right] board after removal of fruits above col " + str(rightCol))
-			print('\n')
-			for roar in board_state:
-				print(roar)
+			#print('\n')
+			#print("[right] board after removal of fruits above col " + str(rightCol))
+			#print('\n')
+			#for roar in board_state:
+			#	print(roar)
 
 	return board_state
 
 def simulation(row, col, priority_match, board_state, match_booster):
 
-	print('\n')
-	print("Board After Move:")
-	for rooow in board_state:
-		print(rooow)
-	print('\n')
+	#print('\n')
+	#print("Board After Move:")
+	#for rooow in board_state:
+	#	print(rooow)
+	#print('\n')
 
 	match_fruits_count = match_clear_directions[priority_match]
 	new_board = generate_board_state_after_match(row, \
 				col, board_state, match_fruits_count, match_booster)
+	return new_board
 
-	print('\n')
-	print("Board After Simulation:")
-	for rowrowrow in new_board:
-		print(rowrowrow)
-	print('\n')
+	#print('\n')
+	#print("Board After Simulation:")
+	#for rowrowrow in new_board:
+	#	print(rowrowrow)
+	#print('\n')
 
 def move_outcome(row, col, valid_moves):
+	moves_values = {}
 	if rows_properties[index_to_row[row]][index_to_col[col]]['modifier'] == 'star_booster':
 		pass
 	for move_direction in valid_moves['validMoves']:
@@ -1576,7 +1577,16 @@ def move_outcome(row, col, valid_moves):
 			match_check = matches_check(row - 1, col, output_board)
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
-			simulation(row - 1, col, priority_match, output_board, match_booster)
+			board_state = simulation(row - 1, col, priority_match, output_board, match_booster)
+			simulation_traverse = traverse(board_state, simulation_flag=True)
+			if simulation_traverse['hasMatch'] != False:
+				print("Cascated match detected.")
+				print(simulation_traverse)
+				print('\n')
+				board_state = simulation_traverse['board_state']
+				simulation_traverse = traverse(board_state, simulation_flag=True)
+			else:
+				pass
 
 			## While running simulations, rows_properties should be reset after each
 			## move evaluation.			
@@ -1588,7 +1598,16 @@ def move_outcome(row, col, valid_moves):
 			match_check = matches_check(row + 1, col, output_board)
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
-			simulation(row + 1, col, priority_match, output_board, match_booster)
+			board_state = simulation(row + 1, col, priority_match, output_board, match_booster)
+			simulation_traverse = traverse(board_state, simulation_flag=True)
+			if simulation_traverse['hasMatch'] != False:
+				print("Cascated match detected.")
+				print(simulation_traverse)
+				print('\n')			
+				board_state = simulation_traverse['board_state']
+				simulation_traverse = traverse(board_state, simulation_flag=True)
+			else:
+				pass			
 
 			## While running simulations, rows_properties should be reset after each
 			## move evaluation.
@@ -1600,7 +1619,17 @@ def move_outcome(row, col, valid_moves):
 			match_check = matches_check(row, col - 1, output_board)
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
-			simulation(row, col - 1, priority_match, output_board, match_booster)
+			board_state = simulation(row, col - 1, priority_match, output_board, match_booster)
+			simulation_traverse = traverse(board_state, simulation_flag=True)
+			print(simulation_traverse)
+			if simulation_traverse['hasMatch'] != False:
+				print("Cascated match detected.")
+				print(simulation_traverse)
+				print('\n')				
+				board_state = simulation_traverse['board_state']				
+				simulation_traverse = traverse(board_state, simulation_flag=True)
+			else:
+				pass			
 
 			## While running simulations, rows_properties should be reset after each
 			## move evaluation.				
@@ -1612,45 +1641,78 @@ def move_outcome(row, col, valid_moves):
 			match_check = matches_check(row, col + 1, output_board)
 			priority_match = match_check['priority_match']
 			match_booster = match_check['booster']
-			simulation(row, col + 1, priority_match, output_board, match_booster)
+			board_state = simulation(row, col + 1, priority_match, output_board, match_booster)
+			simulation_traverse = traverse(board_state, simulation_flag=True)
+			if simulation_traverse['hasMatch'] != False:
+				print("Cascated match detected.")
+				print(simulation_traverse)
+				print('\n')				
+				board_state = simulation_traverse['board_state']
+				simulation_traverse = traverse(board_state, simulation_flag=True)
+			else:
+				pass			
 
 			## While running simulations, rows_properties should be reset after each
 			## move evaluation.			
 			reset_rows_properties()
 
 # in progress
-def traverse():
-	fruits_with_valid_move = {}
-	test_board = [list(row1), list(row2), list(row3), list(row4), list(row5), 
-					   list(row6), list(row7), list(row8), list(row9)
-	] 
+def traverse(board_state, simulation_flag=False):
 	for i in range(9):
 		row = i
 		for j in range(9):
 			col = j
-			current_fruit = test_board[row][col]
-			valid_moves = ValidMoves(row, col, test_board)
-			if valid_moves['isValid'] == True:
-				## here will be the function that sees what happens when
-				## the move is made and how valuable it is based on that
-				fruits_with_valid_move[current_fruit + " at pos " + str(row + 1) + "," \
-				+ str(col + 1)] = valid_moves['validMoves']
-				print("Original Board:")
-				for row_row in test_board:
-					print(row_row)
-				print('\n')
-				print(current_fruit + " at pos " + str(row + 1) + "," + 
-				str(col + 1))
-				print("Valid Moves:")
-				print(valid_moves['validMoves'])
-				print('\n')
-				outcome = move_outcome(row, col, valid_moves)
-				#break
-			if valid_moves['isValid'] == False:
-				#break
+			current_fruit = board_state[row][col]
+			if current_fruit == 'X':
 				continue
-			#time.sleep(1)
-			#break
-	return fruits_with_valid_move
+			if simulation_flag == False:
+				valid_moves = ValidMoves(row, col, board_state)
+				if valid_moves['isValid'] == True:
 
-traverse()
+					#print("Original Board:")
+					#for row_row in board_state:
+						#print(row_row)
+					print(current_fruit + " at pos " + str(row + 1) + "," + 
+					str(col + 1))
+					#print("Valid Moves:")
+					#print(valid_moves['validMoves'])
+					#print('\n')
+
+					move_outcome(row, col, valid_moves)
+			has_match = False
+			if simulation_flag == True:
+				print(current_fruit + " at pos " + str(row + 1) + "," + 
+					str(col + 1))
+				match_check = matches_check(row, col, board_state)
+				priority_match = match_check['priority_match']
+				if priority_match == None:
+					has_match = False
+					continue
+				else:
+					has_match = True
+				match_booster = match_check['booster']
+				board_state = simulation(row, col, priority_match, board_state, match_booster)
+				return {'hasMatch': has_match, 
+						'position': current_fruit + " at pos " + str(row + 1) + "," + \
+									str(col + 1),
+						'match': priority_match,
+						'match_booster': match_booster,
+						'board_state': board_state
+				}
+
+
+traverse(board, simulation_flag=False)
+
+
+#we know what a match does by now
+#we know the tiles that are cleared
+#and we are even capable of pulling down the fruits above these tiles
+
+#now we just need it to be functional and at least better than a human
+#it doesn't need to be the most eficient'
+
+#I want the IA to tell me:
+#1. after a match is made, if other matches will happen
+#2. if the match explodes a booster (because of its major effects)
+#3. what moves (and how valuable they are) there will be after that match is made
+#4. if the match creates a booster
