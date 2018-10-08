@@ -1,7 +1,8 @@
 # match-3-ai
 Designed to make the best possible move in a match-3 game. Specifically for the mini-game in Dragon City: Fruit Puzzle Island.
 
-Ok... I've learned my lesson while coding this "little" project.
+# Well...
+Ok, I've learned my lesson while coding this "little" project.
 
 No - the AI doesn't work; at least not in an efficient way, and here's why:
 
