@@ -15,6 +15,8 @@ As a human, there is a limit to things we can pay attention to, and more than 10
 
 I remember I had to go through each function multiple times to know what was happening when the code was executed. This is a signal that the code is messy, confusing and over-complicated.
 
+There was also a "deadline". The AI was specifically made for a mini-game of match-3 in Dragon City, and the mini-game would disappear after 1 week +/-, so I had this period of time to come up with an AI. This time pressure was actually really good as it made code like a maniac and motivated me to challenge my discipline.
+
 I spent 8 days (full-time) writing this and in the end, the goal wasn't reached - to create an AI to solve match-3 - but, I learned some really valuable lessons that will make my code more readable and organized, and I can't stress enough how important this is; I mean, had the code been organized and structured like I said I should've done before, I'd probably have made this AI work.
 
 # Giving up on this AI?
